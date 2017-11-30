@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.huodull.common:utils:unknown" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:unknown" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:unknown" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:unknown" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:unknown" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:unknown" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:unknown" level="project" />
+    <orderEntry type="library" name="Maven: com.egzosn.sql:dao-params:unknown" level="project" />
+    <orderEntry type="library" name="Maven: com.egzosn.sql:sql-filter:unknown" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:unknown" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:unknown" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:unknown" level="project" />
+  </component>
+</module>

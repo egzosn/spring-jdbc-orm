@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.egzosn.jdbc</groupId>
+    <artifactId>spring-jdbc-orm</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>infrastructure</module>
+        <module>examples</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <!--<version>1.3.7.RELEASE</version>-->
+        <version>1.4.2.RELEASE</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <egzosn.version>1.0-SNAPSHOT</egzosn.version>
+        <javax.inject.version>1</javax.inject.version>
+        <jsr250-api.version>1.0</jsr250-api.version>
+        <spring.data.version>1.12.2.RELEASE</spring.data.version>
+        <org.apache.commons.version>3.4</org.apache.commons.version>
+    </properties>
+
+
+
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.spring.io/libs-snapshot-local</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshots-continuous</id>
+            <name>Spring Snapshots Continuous</name>
+            <url>http://repo.spring.io/libs-snapshot-continuous-local</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/libs-milestone-local</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>http://repo.spring.io/libs-release-local</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+    </repositories>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--暴露各种指标-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!--egzosn-->
+
+            <dependency>
+                <groupId>com.egzosn.jdbc</groupId>
+                <artifactId>utils</artifactId>
+                <version>${egzosn.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.egzosn.jdbc</groupId>
+                <artifactId>database</artifactId>
+                <version>${egzosn.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.egzosn.jdbc</groupId>
+                <artifactId>web</artifactId>
+                <version>${egzosn.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.egzosn.jdbc</groupId>
+                <artifactId>dao-params</artifactId>
+                <version>${egzosn.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.egzosn.jdbc</groupId>
+                <artifactId>sql-filter</artifactId>
+                <version>${egzosn.version}</version>
+            </dependency>
+            <!--/egzosn-->
+
+
+            <!-- spring -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+            <!-- / Spring -->
+
+
+
+            <!--inject-->
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>jsr250-api</artifactId>
+                <version>${jsr250-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${javax.inject.version}</version>
+            </dependency>
+            <!--/inject-->
+
+
+            <!--commons-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${org.apache.commons.version}</version>
+            </dependency>
+
+            <!--/commons-->
+
+            <!-- Swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.6.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>2.6.1</version>
+            </dependency>
+            <!--json-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.17</version>
+            </dependency>
+            <!--/json-->
+        </dependencies>
+    </dependencyManagement>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.spring.io/libs-snapshot-local</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/libs-milestone-local</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <env>local</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>proc</id>
+            <properties>
+                <env>proc</env>
+            </properties>
+        </profile>
+    </profiles>
+</project>
