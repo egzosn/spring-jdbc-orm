@@ -12,6 +12,8 @@ import java.util.Map;
 import com.egzosn.examples.entity.Freight;
 import com.egzosn.examples.request.FreightBody;
 import com.egzosn.examples.service.FreightService;
+import com.egzosn.infrastructure.params.SqlFilter;
+import com.egzosn.infrastructure.params.SqlFilterRequest;
 import com.egzosn.infrastructure.utils.validator.ValidateUtils;
 import com.egzosn.infrastructure.web.controller.BaseController;
 import io.swagger.annotations.Api;
@@ -30,6 +32,7 @@ import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -61,6 +64,22 @@ public class FreightController extends BaseController {
 		Map<String,Object> data = successData();
 		return data;
 	}
+
+	/**
+	 *根据请求过滤转化为查询参数
+	 *
+	 * @param request
+	 * @author egan
+	 * @email egzosn@gmail.com
+	 * @date 2017-8-21 0:36:46
+	 */
+	@ApiOperation(value = "通过 SqlFilter实现查询，详情 infrastructure/params/sql-filter/README.md")
+	@RequestMapping("list")
+	public Map<String, Object> list(HttpServletRequest request){
+		SqlFilter sqlFilter = new SqlFilter(new SqlFilterRequest(request.getParameterMap()));
+		return assemblyPageData(service.findByFilter(sqlFilter));
+	}
+
 
 	@ApiOperation(value = "保存")
 	@RequestMapping(value = "save", method = RequestMethod.POST)

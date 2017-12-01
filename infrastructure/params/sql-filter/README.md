@@ -27,7 +27,7 @@ According to certain rules to generate SQL or HQL
         <div class="column">
             <form action="/testServlet" method="post">
             name(and ; right like):<input name="QUERY^t#name^!|^RLK"/><br/>
-            age(and ; >=):<input name="QUERY^t#age^!|^GE"/><br/>
+            age(and ; >=):<input name="QUERY^t#age^!|^GE^i"/><br/>
             sex(or ; =):<input name="QUERY^t#sex^|^EQ"/><br/>
                 <input type="submit" value="generated">
             </form>
