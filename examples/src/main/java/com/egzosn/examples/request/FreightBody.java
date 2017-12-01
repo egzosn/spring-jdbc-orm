@@ -7,11 +7,6 @@
 
 package com.egzosn.examples.request;
 
-import com.egzosn.infrastructure.database.jdbc.annotations.Column;
-import com.egzosn.infrastructure.database.jdbc.annotations.GeneratedValue;
-import com.egzosn.infrastructure.database.jdbc.annotations.Id;
-import com.egzosn.infrastructure.database.jdbc.annotations.Table;
-import com.egzosn.infrastructure.database.jdbc.id.GenerationType;
 import com.egzosn.infrastructure.web.support.annotation.MsgCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
@@ -68,7 +63,6 @@ public class FreightBody {
 	public String getCountryShortEn(){
 		return countryShortEn;
 	}
-
 
 }
 

@@ -51,7 +51,8 @@ public class FreightController extends BaseController {
 	@Autowired
 	private FreightService service;
 
-	private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+
 	//@Autowired
 	//private FreightRepository repository; 	//  FreightDaoParams
 
@@ -75,27 +76,11 @@ public class FreightController extends BaseController {
 	@ApiOperation(value = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public Map<String, Object> update( Freight body) throws BindException {
-		WebDataBinder binder = new WebDataBinder(body, body.getClass().getSimpleName());
-		SpringValidatorAdapter adapter = new SpringValidatorAdapter(validator);
-		adapter.validate(body, binder.getBindingResult());
-		if (binder.getBindingResult().hasErrors() ) {
-			throw new BindException(binder.getBindingResult());
-		}
-		service.save(body);
+
+		service.save(ValidateUtils.validate(body));
 		return successData("data", body);
 	}
-	/**
-	 * Whether to raise a fatal bind exception on validation errors.
-	 * @param binder the data binder used to perform data binding
-	 * @param methodParam the method argument
-	 * @return {@code true} if the next method argument is not of type {@link Errors}
-	 */
-	protected boolean isBindExceptionRequired(WebDataBinder binder, MethodParameter methodParam) {
-		int i = methodParam.getParameterIndex();
-		Class<?>[] paramTypes = methodParam.getMethod().getParameterTypes();
-		boolean hasBindingResult = (paramTypes.length > (i + 1) && Errors.class.isAssignableFrom(paramTypes[i + 1]));
-		return !hasBindingResult;
-	}
+
 
 	@ApiOperation(value = "返回ORM映射实体 名称查询")
 	@RequestMapping(value ="find", method = RequestMethod.POST)
@@ -133,6 +118,8 @@ public class FreightController extends BaseController {
 
 		return successData("data", service.customFreight(name));
 	}
+
+
 
 }
 
