@@ -33,5 +33,6 @@ public class FreightRepository extends BaseJdbcRepository<Freight> {
 
         return uniqueQuery(getSQL("*", params), params.getParas().toArray() );
     }
+
 }
 
