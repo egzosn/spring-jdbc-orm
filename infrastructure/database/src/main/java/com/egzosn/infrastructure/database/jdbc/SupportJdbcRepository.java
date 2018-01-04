@@ -401,7 +401,7 @@ public class SupportJdbcRepository<T> {
      * @return
      */
     protected <X> List<X> queryList(final String sql, Class<X> resultClass, int page, int rows, Object... params) {
-        return queryList(sql + SQLTools.forPaginate(page, rows), resultClass, params);
+      return new CreateQuery<X>(sql + SQLTools.forPaginate(page, rows), params).setResultClass(resultClass, resultClass == entityPersister.getEntityClass() ).list();
     }
     
     
@@ -424,9 +424,7 @@ public class SupportJdbcRepository<T> {
      * @return {@link List}
      */
     public <X> List<X> queryList(String sql, Class<X> resultClass, Map<String, Object> values) {
-
-        List<Object> paras = new ArrayList<>();
-        return queryList(SQLTools.forConverSQL(sql, values, paras), resultClass, paras.toArray());
+        return  new CreateQuery<X>(sql, values).setResultClass(resultClass, resultClass == entityPersister.getEntityClass() ).list();
     }
 
 
@@ -590,7 +588,7 @@ public class SupportJdbcRepository<T> {
      * @return
      */
     public long countSQL(String sql, Object... params) {
-        return count(new CreateQuery(sql, params));
+        return count(new CreateQuery(sql, params).setIsCount(true));
     }
 
 
@@ -731,7 +729,8 @@ public class SupportJdbcRepository<T> {
         }
 
         // TODO 2016/9/21 14:25 author: egan 获取对应结果集
-        List<X> list = queryList(sql, resultClass, params);
+//
+        List<X> list = new CreateQuery<X>(sql, params).setResultClass(resultClass, resultClass == entityPersister.getEntityClass() ).list();
         return new Page<X>(1, list.size(), lo, list);
     }
 
@@ -768,6 +767,10 @@ public class SupportJdbcRepository<T> {
         public CreateQuery<X> setResultClass(Class<X> resultClass, boolean isEntity, boolean isCount) {
             this.resultClass = resultClass;
             this.isEntity = isEntity;
+            this.isCount = isCount;
+            return this;
+        }
+        public CreateQuery<X> setIsCount( boolean isCount) {
             this.isCount = isCount;
             return this;
         }
