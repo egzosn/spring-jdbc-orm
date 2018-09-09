@@ -160,7 +160,6 @@ public class BaseController {
             Set<ConstraintViolation<?>> constraintViolations = mcve.getConstraintViolations();
             for (ConstraintViolation<?> violation : constraintViolations) {
                 Object[] executableParameters = violation.getExecutableParameters();
-
                 //violation.getMessage() 主要为code(规范书写)
                 if (violation.getMessage().matches("\\d+")) {
                     Integer code = Integer.valueOf(violation.getMessage());

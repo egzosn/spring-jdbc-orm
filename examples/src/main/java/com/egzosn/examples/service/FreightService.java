@@ -12,7 +12,9 @@ import com.egzosn.examples.params.FreightDaoParams;
 import com.egzosn.examples.repository.FreightRepository;
 import com.egzosn.examples.entity.Freight;
 import com.egzosn.examples.entity.CustomFreight;
+import com.egzosn.infrastructure.params.SqlFilter;
 import com.egzosn.infrastructure.params.enums.Restriction;
+import com.egzosn.infrastructure.utils.common.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,21 @@ import java.util.Map;
 public class FreightService {
 	@Autowired
 	private FreightRepository repository; 	//  FreightDaoParams
+
+	/**
+	 * @param sqlFilter 过滤对象
+	 * @author egan
+	 * @email egzosn@gmail.com
+	 * @date 2017-8-21 0:36:46
+	 */
+	@Transactional(readOnly = true)
+	public Page<Freight> findByFilter(SqlFilter sqlFilter){
+		//设置排序
+		sqlFilter.setOrder();
+		sqlFilter.setPageing();
+		return repository.queryPage(sqlFilter.setAlias(FreightDaoParams.ALIAS).getQueryParams(), true);
+	}
+
 
 	@Transactional
 	public void save(Freight freight){

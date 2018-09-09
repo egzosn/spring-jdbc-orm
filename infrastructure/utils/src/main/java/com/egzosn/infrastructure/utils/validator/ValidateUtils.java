@@ -17,11 +17,10 @@
 
 package com.egzosn.infrastructure.utils.validator;
 
-import javax.validation.ConstraintViolation;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.WebDataBinder;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
-import javax.validation.Validator;
-import java.util.Set;
 
 /**
  * 校验器工具
@@ -33,7 +32,7 @@ public class ValidateUtils {
     /**
      * 针对校验使用
      */
-    private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    private static final ValidatorAdapter validator = new ValidatorAdapter(Validation.buildDefaultValidatorFactory().getValidator());
 
     /**
      * @param object 需要校验的队形
@@ -41,12 +40,11 @@ public class ValidateUtils {
      * @return
      * @throws ConstraintViolationException 约束违反异常
      */
-    public static <T>T validate(T object){
-
-        Set<ConstraintViolation<T>> constraintViolations = validator.validate(object);
-        //判断是否有对应的校验异常集
-        if (!constraintViolations.isEmpty()){
-            throw  new ConstraintViolationException(constraintViolations);
+    public static <T>T validate(T object) throws BindException {
+        WebDataBinder binder = new WebDataBinder(object, object.getClass().getSimpleName());
+        validator.validate(object, binder.getBindingResult());
+        if (binder.getBindingResult().hasErrors() ) {
+            throw new BindException(binder.getBindingResult());
         }
         return  object;
     }
@@ -57,14 +55,15 @@ public class ValidateUtils {
      * @param propertyName 校验的参数
      * @param <T>
      * @return
-     * @throws ConstraintViolationException 约束违反异常
+     * @throws BindException 字段绑定异常
      */
-    public static <T>T  validateProperty(T object, String propertyName){
-        Set<ConstraintViolation<T>> constraintViolations = validator.validateProperty(object, propertyName);
-        //判断是否有对应的校验异常集
-        if (!constraintViolations.isEmpty()){
-            throw  new ConstraintViolationException(constraintViolations);
+    public static <T>T  validateProperty(T object, String propertyName) throws BindException {
+        WebDataBinder binder = new WebDataBinder(object, object.getClass().getSimpleName());
+        validator.validateProperty(object, propertyName, binder.getBindingResult());
+        if (binder.getBindingResult().hasErrors() ) {
+            throw new BindException(binder.getBindingResult());
         }
+
         return  object;
     }
 
