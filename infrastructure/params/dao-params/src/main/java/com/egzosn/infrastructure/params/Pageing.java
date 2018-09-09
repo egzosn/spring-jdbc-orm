@@ -5,7 +5,7 @@ package com.egzosn.infrastructure.params;
  * @author egan
  *
  */
-public class Page {
+public class Pageing {
 
 	private int pageIndex = 1; //  当前页
 	

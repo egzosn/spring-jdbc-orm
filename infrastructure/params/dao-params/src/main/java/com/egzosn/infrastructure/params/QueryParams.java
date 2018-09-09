@@ -26,13 +26,13 @@ import java.util.regex.Pattern;
  * Created by egan on 2015/7/15.
  */
 public abstract class QueryParams implements Params {
-    private Page page = new Page();
+    private Pageing page = new Pageing();
     protected StringBuilder sql = null;
     private Where where = null;
     private Order order = null;
     private Group group = null;
 
-    public Page getPage() {
+    public Pageing getPage() {
         return page;
     }
 

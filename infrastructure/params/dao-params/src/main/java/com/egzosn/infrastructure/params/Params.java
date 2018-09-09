@@ -33,7 +33,7 @@ public interface Params {
 
     public List<Object> getParas();
 
-    public Page getPage();
+    public Pageing getPage();
 
     public QueryParams builderAttrs();
 

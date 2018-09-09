@@ -80,7 +80,7 @@ public class Order extends QueryParams {
     }
 
     protected Order add(String key, OrderAD value, String prefix) {
-        if (null == orders) orders = new LinkedHashMap<>();
+        if (null == orders) orders = new LinkedHashMap<String, String[]>();
 
         if (null == value) {
             orders.remove(key);
