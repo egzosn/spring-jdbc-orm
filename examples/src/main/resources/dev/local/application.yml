@@ -25,12 +25,10 @@ spring:
       charset: UTF-8
       enable: true
       force: true
-
   datasource:
-
-    url: jdbc:mysql://192.168.1.69:3306/freight?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useOldAliasMetadataBehavior=true
+    url: jdbc:mysql://localhost:3306/freight?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useOldAliasMetadataBehavior=true
     username: root
-    password: huodull.com
+    password: root
     max-active: 20
     max-idle: 8
     min-idle: 8

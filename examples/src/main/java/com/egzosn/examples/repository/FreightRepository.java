@@ -7,6 +7,7 @@
 
 
 package com.egzosn.examples.repository;
+import com.egzosn.examples.params.FreightDaoParams;
 import com.egzosn.infrastructure.database.jdbc.BaseJdbcRepository;
 import com.egzosn.infrastructure.params.Params;
 import com.egzosn.examples.entity.Freight;
@@ -24,8 +25,9 @@ import java.util.Map;
 */ 
 @Repository
 public class FreightRepository extends BaseJdbcRepository<Freight> {
-    public CustomFreight customFreight(Params params) {
 
+    public CustomFreight customFreight(Params params) {
+        FreightDaoParams.Field.getSelects(params.alias());
         return uniqueQuery(getSQL("*", params), CustomFreight.class, params.getParas().toArray() );
     }
 

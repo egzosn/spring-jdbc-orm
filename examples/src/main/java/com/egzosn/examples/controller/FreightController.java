@@ -84,18 +84,7 @@ public class FreightController extends BaseController {
 		service.save(body);
 		return successData("data", body);
 	}
-	/**
-	 * Whether to raise a fatal bind exception on validation errors.
-	 * @param binder the data binder used to perform data binding
-	 * @param methodParam the method argument
-	 * @return {@code true} if the next method argument is not of type {@link Errors}
-	 */
-	protected boolean isBindExceptionRequired(WebDataBinder binder, MethodParameter methodParam) {
-		int i = methodParam.getParameterIndex();
-		Class<?>[] paramTypes = methodParam.getMethod().getParameterTypes();
-		boolean hasBindingResult = (paramTypes.length > (i + 1) && Errors.class.isAssignableFrom(paramTypes[i + 1]));
-		return !hasBindingResult;
-	}
+
 
 	@ApiOperation(value = "返回ORM映射实体 名称查询")
 	@RequestMapping(value ="find", method = RequestMethod.POST)
