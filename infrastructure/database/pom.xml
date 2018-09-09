@@ -12,18 +12,23 @@
     <packaging>jar</packaging>
 
     <artifactId>database</artifactId>
-
+    <developers>
+        <developer>
+            <name>Egan</name>
+            <email>egzosn@gmail.com</email>
+        </developer>
+    </developers>
     <dependencies>
-        <dependency>
+   <!--     <dependency>
             <groupId>com.egzosn.jdbc</groupId>
             <artifactId>utils</artifactId>
         </dependency>
-
+-->
         <!-- logback  -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- / logback -->
 
         <!--db-->
@@ -35,6 +40,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+       <!-- <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.4.0</version>
+        </dependency>-->
         <!--db-->
 
 

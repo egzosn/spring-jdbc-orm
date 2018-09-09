@@ -31,15 +31,24 @@ public enum  GenerationType implements IdGeneratedStrategy{
             if (null == ps){
                 return null;
             }
-
-            try (  ResultSet rs = ps.getGeneratedKeys();){
-
+            ResultSet rs = null;
+            try {
+                 rs = ps.getGeneratedKeys();
                 if (rs != null && rs.getMetaData().getColumnCount() == 1) {
                     RowMapperResultSetExtractor<Map<String, Object>> rse = new RowMapperResultSetExtractor<Map<String, Object>>( new ColumnMapRowMapper(), 1);
                     return new GeneratedKeyHolder(rse.extractData(rs));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
+            }finally {
+
+                    try {
+                        if (null != rs && !rs.isClosed()) {
+                            rs.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                }
             }
             return null;
         }
@@ -53,10 +62,10 @@ public enum  GenerationType implements IdGeneratedStrategy{
          */
         @Override
         public KeyHolder generation(PreparedStatement ps, int num) {
-            List<Map<String, Object>>  keyList = new ArrayList<>(num);
+            List<Map<String, Object>>  keyList = new ArrayList<Map<String, Object>>(num);
             KeyHolder keyHolder = new GeneratedKeyHolder(keyList);
             for (int i = 0; i < num; i++){
-                HashMap<String, Object> keys = new HashMap<>();
+                HashMap<String, Object> keys = new HashMap<String, Object>();
                 keys.put("key", java.util.UUID.randomUUID().toString().replace("-", ""));
                 keyList.add(keys);
             }

@@ -2,10 +2,10 @@ package com.egzosn.infrastructure.database.jdbc;
 
 
 
+import com.egzosn.infrastructure.database.jdbc.bean.Page;
 import com.egzosn.infrastructure.params.Params;
 import com.egzosn.infrastructure.params.Where;
 import com.egzosn.infrastructure.params.enums.Restriction;
-import com.egzosn.infrastructure.utils.common.Page;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class BaseJdbcRepository<T> extends SupportJdbcRepository<T>  {
     @SuppressWarnings("unchecked")
     public List<T> findByProperty(String propertyName, Object value, Restriction restriction) {
         if (StringUtils.isEmpty(propertyName) || null == value){
-            return new ArrayList<>();
+            return new ArrayList<T>();
         }
         if (null == restriction) {
             restriction = Restriction.EQ;

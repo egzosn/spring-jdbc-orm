@@ -22,7 +22,16 @@ public @interface Table {
 	 * (Optional) The name of the table.
 	 * <p/>
 	 * Defaults to the entity name.
+	 * @return table name
 	 */
 	String name() default "";
+
+	/**
+     *   是否需要 {@link Column} 进行字段映射，默认 true 需要 {@link Column}进行字段列标识
+	 *   当 columnFlag 值为 false 时 没有 {@link Column} 进行标识时则用字段名称
+	 *
+	 * @return whether column flag is required
+	 */
+	boolean columnFlag()  default true;
 
 }

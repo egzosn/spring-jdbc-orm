@@ -1,17 +1,20 @@
 package com.egzosn.infrastructure.database.jdbc;
 
+import com.egzosn.infrastructure.database.jdbc.annotations.GeneratedValue;
 import com.egzosn.infrastructure.database.jdbc.annotations.Id;
+import com.egzosn.infrastructure.database.jdbc.annotations.Ignore;
 import com.egzosn.infrastructure.database.jdbc.annotations.Table;
-import com.egzosn.infrastructure.database.splittable.SplitTable;
+import com.egzosn.infrastructure.database.jdbc.bean.Column;
 import com.egzosn.infrastructure.database.jdbc.id.GenerationType;
 import com.egzosn.infrastructure.database.jdbc.id.IdField;
-import com.egzosn.infrastructure.database.jdbc.annotations.GeneratedValue;
+import com.egzosn.infrastructure.database.splittable.SplitTable;
 import com.egzosn.infrastructure.database.splittable.SplitTableField;
 import com.egzosn.infrastructure.database.splittable.TableHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
@@ -97,7 +100,7 @@ public class SingleTableEntityPersister<T> {
         }
         initSplitTable();
         try {
-            setColumns();
+            setColumns(table.columnFlag());
         } catch (NoSuchMethodException e) {
             logger.error("找不到方法", e);
         }
@@ -139,18 +142,31 @@ public class SingleTableEntityPersister<T> {
 
     /**
      * 设置列
+     * @param columnFlag  是否需要 {@link com.egzosn.infrastructure.database.jdbc.annotations.Column} 进行字段映射，默认 true 需要 {@link com.egzosn.infrastructure.database.jdbc.annotations.Column}进行字段列标识
+     *   当 columnFlag 值为 false 时 没有 {@link com.egzosn.infrastructure.database.jdbc.annotations.Column} 进行标识时则用字段名称
+     *  <p/>
      * @throws NoSuchMethodException 找不到方法异常
      */
-    private void setColumns() throws NoSuchMethodException {
+    private void setColumns(boolean columnFlag) throws NoSuchMethodException {
         Field[] fields = entityClass.getDeclaredFields();
-        columns = new HashMap<>(fields.length);
-        this.fields = new HashMap<>(columns.size());
-        columnNames[0] = new ArrayList<>(columns.size());
-        columnNames[1] = new ArrayList<>(columns.size());
+        columns = new HashMap<String, Column>(fields.length);
+        this.fields = new HashMap<String, Column>(columns.size());
+        columnNames[0] = new ArrayList<String>(columns.size());
+        columnNames[1] = new ArrayList<String>(columns.size());
         for (Field field : fields) {
             Column column = new Column();
             com.egzosn.infrastructure.database.jdbc.annotations.Column c = field.getAnnotation( com.egzosn.infrastructure.database.jdbc.annotations.Column.class);
-            column.setName(null == c ? field.getName() : c.name());
+            if (columnFlag && null == c || field.isAnnotationPresent(Ignore.class)){
+               continue;
+            }
+
+
+            if ( null == c || "".equals(c.name()) ){
+                column.setName(field.getName());
+            }else {
+                column.setName(c.name());
+            }
+
             column.setFieldName(field.getName());
             column.setWriteMethod(getWriteMethod(entityClass, field));
             column.setReadMethod(getReadMethod(entityClass, field));

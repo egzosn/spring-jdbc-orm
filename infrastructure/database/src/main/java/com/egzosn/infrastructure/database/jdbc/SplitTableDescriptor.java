@@ -1,10 +1,10 @@
 package com.egzosn.infrastructure.database.jdbc;
 
+import com.egzosn.infrastructure.database.jdbc.bean.Column;
 import com.egzosn.infrastructure.database.splittable.TableHandler;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 /**
  * 分表描述

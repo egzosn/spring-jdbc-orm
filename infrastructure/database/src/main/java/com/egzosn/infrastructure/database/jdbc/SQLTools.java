@@ -1,9 +1,8 @@
-/**
- * 
- */
 package com.egzosn.infrastructure.database.jdbc;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import java.util.regex.Pattern;
  *Wed Nov 162 17:31:32 CST 2015
  */
 public class SQLTools {
+	private static Logger logger = LoggerFactory.getLogger(SQLTools.class);
 	private  static final Pattern pattern = Pattern.compile(":(\\w+)[, ]?");
 	/**
 	 *  获取统计的sql
@@ -31,6 +31,15 @@ public class SQLTools {
 	 */
 	public static String getCountSQL(final String sql) {
 		return getCountSQL(sql, null);
+	}
+	/**
+	 *  获取统计的sql
+	 * @param sql 原始sql
+	 * @return  转化后的sql
+	 */
+	public static String getCountOracleSQL(final String sql) {
+		return getCountOracleSQL(sql, null);
+
 	}
 
 	/**
@@ -43,6 +52,21 @@ public class SQLTools {
 
 		String countSql = String.format("SELECT  COUNT(%s) ", null == countField ? "*" : countField);
 		String upperSql = sql.toUpperCase();
+		int start = upperSql.indexOf("FROM ");
+		int end = upperSql.lastIndexOf("ORDER BY ");
+		countSql += sql.substring(start, end == -1 ? sql.length() : end);
+		return countSql;
+	}
+	/**
+	 * 获取统计的sql
+	 * @param sql  原始sql
+	 * @param countField 需要统计的字段
+	 * @return 转化后的sql
+	 */
+	public static String getCountOracleSQL(final String sql, String countField) {
+
+		String countSql = String.format("SELECT  COUNT(%s) ", null == countField ? "*" : countField);
+		String upperSql = sql.toUpperCase().replace("SELECT * FROM ( ", "").replace(" ) WHERE ROWNUM BETWEEN %s AND %s", "");
 		int start = upperSql.indexOf("FROM ");
 		int end = upperSql.lastIndexOf("ORDER BY ");
 		countSql += sql.substring(start, end == -1 ? sql.length() : end);
@@ -151,16 +175,52 @@ public class SQLTools {
 
 
 	/**
+	 * 拼接分页部分
+	 * @param pageNumber 页号
+	 * @param pageSize 每页大小
+	 * @return 拼装 分页sql
+	 */
+	public static String forPaginate(String sql, int pageNumber, int pageSize) {
+		int offset = pageSize * (pageNumber - 1);
+		String sqltmp = String.format("SELECT *  FROM (SELECT ROWNUM  RN,a.* FROM (  %s  ) a  WHERE ROWNUM <= %s) WHERE RN >%s", new Object[]{sql, Integer.valueOf(offset + pageSize), Integer.valueOf(offset)});
+		logger.info("sql Paginate : " + sqltmp);
+		return sqltmp;
+	}
+
+
+	/**
 	 * 设置 参数
-	 * @param pst 代替对象
+	 * @param ps 代替对象
 	 * @param params 参数
 	 * @throws SQLException
 	 */
-	public static void fillStatement(PreparedStatement pst, List<Object> params)throws SQLException {
-		int i = 0;
-		for (Object param : params) {
-			pst.setObject(++i, param);
+	public static void fillStatement(PreparedStatement ps, List<Object> params)throws SQLException {
+		if (null == params || params.isEmpty()){
+			return;
 		}
+
+		int i = 0;
+		for (Object param: params){
+			if (param instanceof List){
+				SQLTools.fillStatement(ps, (List)param);
+				ps.addBatch();
+				continue;
+			}
+
+			if (param instanceof  Object[]){
+				SQLTools.fillStatement(ps, (Object[])param);
+				ps.addBatch();
+				continue;
+			}
+
+			if(null == param){
+				ps.setNull(++i, Types.OTHER);
+				continue;
+			}
+			ps.setObject(++i, param);
+
+		}
+
 	}
 
 	/**
@@ -183,6 +243,10 @@ public class SQLTools {
 		}else {
 			int i = 0;
 			for (Object param : params) {
+				if(null == param){
+					ps.setNull(++i, Types.OTHER);
+					continue;
+				}
 				ps.setObject(++i, param);
 			}
 		}
@@ -199,7 +263,7 @@ public class SQLTools {
 	 */
 	public static StringBuilder generateInsertString(String tableName, List<String> keyColumnNames){
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into `").append(tableName).append("`(");
+		sql.append("insert into ").append(tableName).append("(");
 		StringBuilder temp = new StringBuilder(") values(");
 		boolean flag = false;
 		for (String colName : keyColumnNames) {
@@ -207,7 +271,7 @@ public class SQLTools {
 				sql.append(", ");
 				temp.append(", ");
 			}
-			sql.append("`").append(colName).append("`");
+			sql.append("").append(colName).append("");
 			temp.append("?");
 			flag = true;
 		}
@@ -224,13 +288,13 @@ public class SQLTools {
 	 */
 	public static StringBuilder generateUpdateByRowIdString(String tableName, List<String> keyColumnNames, String idColumn){
 		StringBuilder sql = new StringBuilder();
-		sql.append("update `").append(tableName).append("` set ");
+		sql.append("update ").append(tableName).append(" set ");
 		int i = 0;
 		for (String colName : keyColumnNames) {
 			if (i != 0) {
 				sql.append(", ");
 			}
-			sql.append("`").append(colName).append("` = ? ");
+			sql.append("").append(colName).append(" = ? ");
 			i++;
 		}
 		keyColumnNames.add(idColumn);
@@ -247,7 +311,7 @@ public class SQLTools {
 	 */
 	public static StringBuilder forMapSave(String table, Map<String, Object> attrs, List<Object> paras) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into `").append(table).append("`(");
+		sql.append("insert into ").append(table).append("(");
 		StringBuilder temp = new StringBuilder(") values(");
 		for (String colName : attrs.keySet()) {
 			if (null == attrs.get(colName)) {
@@ -257,7 +321,7 @@ public class SQLTools {
 				sql.append(", ");
 				temp.append(", ");
 			}
-			sql.append("`").append(colName).append("`");
+			sql.append("").append(colName).append("");
 			temp.append("?");
 			paras.add(attrs.get(colName));
 		}
@@ -280,12 +344,12 @@ public class SQLTools {
 	public static StringBuilder forMapUpdate(String table, Map<String, Object> attrs, String where, List<Object> whereVal, List<Object> paras) {
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("update `").append(table).append("` set ");
+		sql.append("update ").append(table).append(" set ");
 		for (String colName : attrs.keySet()) {
 			if (!paras.isEmpty()){
 				sql.append(", ");
 			}
-			sql.append("`").append(colName).append("` = ? ");
+			sql.append("").append(colName).append(" = ? ");
 			paras.add(attrs.get(colName));
 		}
 		
@@ -306,12 +370,12 @@ public class SQLTools {
 	public static StringBuilder forMapUpdate(String table, Map<String, Object> attrs, Map<String, Object> where, List<Object> paras) {
 		boolean flag = false;
 		StringBuilder sql = new StringBuilder();
-		sql.append("update `").append(table).append("` set ");
+		sql.append("update ").append(table).append(" set ");
 		for (String colName : attrs.keySet()) {
 			if (flag){
 				sql.append(", ");
 			}
-			sql.append("`").append(colName).append("` = ? ");
+			sql.append("").append(colName).append(" = ? ");
 			paras.add(attrs.get(colName));
 			flag = true;
 		}
@@ -320,7 +384,7 @@ public class SQLTools {
 			if (!flag){
 				sql.append(" and ");
 			}
-			sql.append("`").append(colName).append("` = ? ");
+			sql.append("").append(colName).append(" = ? ");
 			paras.add(where.get(colName));
 			flag = false;
 		}

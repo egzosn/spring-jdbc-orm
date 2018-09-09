@@ -1,4 +1,4 @@
-package com.egzosn.infrastructure.database.jdbc;
+package com.egzosn.infrastructure.database.jdbc.bean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

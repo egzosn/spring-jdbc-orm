@@ -75,7 +75,7 @@ public class IdField {
      * @param ps 数据库操作对象
      */
     public <T>List<Serializable> idGenerated(Collection<T> entitys, PreparedStatement ps){
-        List<Serializable> ids = new ArrayList<>();
+        List<Serializable> ids = new ArrayList<Serializable>();
             try {
                 List<Map<String, Object>> keyList = null;
                 int i = 0;
