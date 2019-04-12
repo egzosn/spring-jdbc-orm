@@ -146,7 +146,7 @@ public class SQLTools {
 		try {
 			is = blob.getBinaryStream();
 			byte[] data = new byte[(int) blob.length()]; // byte[] data = new
-															// byte[is.available()];
+			// byte[is.available()];
 			is.read(data);
 			is.close();
 			return data;
@@ -352,10 +352,10 @@ public class SQLTools {
 			sql.append("").append(colName).append(" = ? ");
 			paras.add(attrs.get(colName));
 		}
-		
+
 		sql.append(where);
 		paras.addAll(whereVal);
-		
+
 		return sql;
 	}
 
