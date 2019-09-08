@@ -24,13 +24,15 @@ import java.util.regex.Pattern;
 
 /**
  * Created by egan on 2015/7/15.
+ * 查询参数集
  */
 public abstract class QueryParams implements Params {
     private Pageing page = new Pageing();
     protected StringBuilder sql = null;
-    private Where where = null;
-    private Order order = null;
-    private Group group = null;
+    protected Where where = null;
+    protected Order order = null;
+    protected Group group = null;
+    protected String alias = "";
 
     public Pageing getPage() {
         return page;
@@ -110,11 +112,13 @@ public abstract class QueryParams implements Params {
     }
 
     public Where where() {
-        if (this instanceof Where)
-        {
+        if (this instanceof Where){
             where = (Where) this;
-        }else{
-            if (null == where) where = new Where();
+            return where;
+        }
+        if (null == where){
+            where = new Where();
+            init(where);
         }
         return where;
     }
@@ -128,9 +132,22 @@ public abstract class QueryParams implements Params {
         return where().add(key, value, prefix);
     }
 
+    protected  QueryParams init(QueryParams params){
+        params.where = where;
+        params.group = group;
+        params.order = order;
+        params.alias = alias;
+        return params;
+    }
     public Order order() {
-        if (null == order) order = new Order();
-
+        if (null == order){
+            order = new Order();
+        }
+        /*order.where = where;
+        order.group = group;
+        order.order = order;
+        order.alias = alias;*/
+        init(order);
         return order;
     }
 
@@ -143,8 +160,10 @@ public abstract class QueryParams implements Params {
     }
 
     public Group group() {
-        if (null == group) group = new Group();
-
+        if (null == group) {
+            group = new Group();
+        }
+        init(group);
         return group;
     }
 
@@ -166,12 +185,14 @@ public abstract class QueryParams implements Params {
     }
 
     public static Where WHERE(String key, Object value, String prefix) {
-        return new Where(key, value, prefix);
+        return new Where(key, value, prefix).where();
     }
 
 
     public static Order ORDER(String key) {
-        return new Order(key);
+        Order order = new Order(key);
+
+        return order;
     }
 
     public static Order ORDER(String key, String prefix) {
@@ -193,7 +214,7 @@ public abstract class QueryParams implements Params {
      * @return
      */
     public static String toFormatSQL(String whereSQL, Map<String, Object> attrs, List<Object> values) {
-        Matcher matcher = Pattern.compile(":(\\w+)").matcher(whereSQL);
+        Matcher matcher = Pattern.compile(":([\\w\\$]+)").matcher(whereSQL);
         String rexp = null;
         while (matcher.find()) {
             String group = matcher.group(1);

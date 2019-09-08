@@ -1,10 +1,6 @@
 package com.egzosn.infrastructure.params.enums;
 
 
-
-
-import java.util.Collection;
-
 /**
  * Created by ZaoSheng on 2015/7/30.
  */
@@ -22,7 +18,7 @@ public enum Restriction {
     },
 
     /**
-     * 非等于查询（from Object o where o.property <> ?）
+     * 非等于查询（from Object o where o.property &lt;&gt; ?）
      */
     NE {
         @Override
@@ -33,7 +29,7 @@ public enum Restriction {
     },
 
     /**
-     * 大于等于查询（from Object o where o.property >= ?）
+     * 大于等于查询（from Object o where o.property &gt;= ?）
      */
     GE {
         @Override
@@ -45,7 +41,7 @@ public enum Restriction {
     },
 
     /**
-     * 大于查询（from Object o where o.property > ?）
+     * 大于查询（from Object o where o.property &gt; ?）
      */
     GT {
         @Override
@@ -56,7 +52,7 @@ public enum Restriction {
     },
 
     /**
-     * 小于等于查询（from Object o where o.property <= ?）
+     * 小于等于查询（from Object o where o.property &lt;= ?）
      */
     LE {
         @Override
@@ -68,7 +64,7 @@ public enum Restriction {
     },
 
     /**
-     * 小于查询（from Object o where o.property < ?）
+     * 小于查询（from Object o where o.property &lt; ?）
      */
     LT {
         @Override

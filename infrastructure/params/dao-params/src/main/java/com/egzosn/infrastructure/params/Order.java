@@ -16,12 +16,12 @@
 
 package com.egzosn.infrastructure.params;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * Created by egan on 2015/8/5.
+ * 排序
  */
 public class Order extends QueryParams {
     private Map<String, String[]> orders = null;
@@ -45,48 +45,54 @@ public class Order extends QueryParams {
     public Order DESC(String key) {
         return add(key, OrderAD.DESC, null);
     }
-    public Order DESC(String key, String prefix ) {
+
+    public Order DESC(String key, String prefix) {
         return add(key, OrderAD.DESC, prefix);
     }
 
-    public Order ASC(String key, String prefix ) {
+    public Order ASC(String key, String prefix) {
         return add(key, OrderAD.ASC, prefix);
     }
 
-    public Order ASC(String key ) {
+    public Order ASC(String key) {
         return add(key, OrderAD.ASC, null);
     }
 
     public QueryParams builderAttrs() {
-        if (null != getOrder()) super.builderAttrs();
-        else {
-            if (null == sql) sql = new StringBuilder();
-
-            sql.append(toSQL());
+        if (null != getOrder()) {
+            super.builderAttrs();
+            return this;
         }
+        if (null == sql) {
+            sql = new StringBuilder();
+        }
+        sql.append(toSQL());
         return this;
     }
 
     public QueryParams builderParas() {
-        if (null != getOrder()) super.builderParas();
-        else {
-            if (null == sql) sql = new StringBuilder();
-
-            sql.append(toFormatSQL());
+        if (null != getOrder()) {
+            super.builderParas();
+            return this;
         }
-
-
+        if (null == sql) {
+            sql = new StringBuilder();
+        }
+        sql.append(toFormatSQL());
         return this;
     }
 
     protected Order add(String key, OrderAD value, String prefix) {
-        if (null == orders) orders = new LinkedHashMap<String, String[]>();
-
+        if (null == orders) {
+            orders = new LinkedHashMap<String, String[]>();
+        }
+        if (null == prefix) {
+            prefix = alias;
+        }
         if (null == value) {
             orders.remove(key);
         } else {
             orders.put(key, new String[]{value.name(), prefix});
-
         }
 
         return this;

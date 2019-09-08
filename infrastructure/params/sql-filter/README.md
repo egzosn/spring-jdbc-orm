@@ -26,9 +26,9 @@ According to certain rules to generate SQL or HQL
 
         <div class="column">
             <form action="/testServlet" method="post">
-            name(and ; right like):<input name="QUERY^t#name^!|^RLK"/><br/>
-            age(and ; >=):<input name="QUERY^t#age^!|^GE^i"/><br/>
-            sex(or ; =):<input name="QUERY^t#sex^|^EQ"/><br/>
+            name(and ; right like):<input name="Q^t#name^!|^RLK"/><br/>
+            age(and ; >=):<input name="Q^t#age^!|^GE^i"/><br/>
+            sex(or ; =):<input name="Q^t#sex^|^EQ"/><br/>
                 <input type="submit" value="generated">
             </form>
         </div>
@@ -40,9 +40,7 @@ According to certain rules to generate SQL or HQL
 
 ```
 
-###Effect of the page
 
-![image](https://github.com/cnzzs/sqlFilter-tool/blob/master/demo/src/main/resources/pageTest.png?raw=true)
 
 
 ###The results

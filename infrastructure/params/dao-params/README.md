@@ -241,8 +241,7 @@ public MnMemberDaoParams setdeviceId(String deviceId){
         System.out.println("----------------Here is the key, the value form -------------");
         //Here is the key, the value form 
         System.out.println(params1.builderAttrs().getSqlString());
-        for(String p : params1.getAttrs().keySet())
-        {
+        for (String p : params1.getAttrs().keySet()) {
             System.out.println(String.format("p:%s_____value:%s", p, params1.getAttrs().get(p).toString()));
 
         }
@@ -253,8 +252,7 @@ public MnMemberDaoParams setdeviceId(String deviceId){
         //This is '?' Instead of the form 
         System.out.println(params1.builderParas().getSqlString());
         int i = 0;
-        for(Object p : params1.getParas())
-        {
+        for(Object p : params1.getParas())  {
             System.out.println(String.format("The %s of ？to value：%s", ++i, p.toString()));
 
         }

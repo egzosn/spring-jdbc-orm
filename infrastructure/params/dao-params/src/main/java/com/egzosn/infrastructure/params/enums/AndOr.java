@@ -22,20 +22,20 @@ package com.egzosn.infrastructure.params.enums;
 public enum AndOr {
     AND{
         @Override
-        public String toMatchString(String propertyName, String pattern) {
-            return String.format(" and %s%s ", propertyName, pattern);
+        public String toMatchString(String pattern, String propertyName) {
+            return String.format(" and %s%s ", pattern, propertyName);
         }
     }, OR{
         @Override
-        public String toMatchString(String propertyName, String pattern) {
-            return String.format(" or %s%s ", propertyName, pattern);
+        public String toMatchString(String pattern, String propertyName) {
+            return String.format(" or %s%s ", pattern, propertyName);
         }
     }, NUL{
         @Override
-        public String toMatchString(String propertyName, String pattern) {
-            return String.format(" %s%s ", propertyName, pattern);
+        public String toMatchString(String pattern, String propertyName) {
+            return String.format(" %s%s ", pattern, propertyName);
         }
     };
-    public abstract String toMatchString(String propertyName, String pattern);
+    public abstract String toMatchString(String pattern, String propertyName);
 
 }

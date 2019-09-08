@@ -1,14 +1,14 @@
-package com.egzosn.infrastructure.database.jdbc;
+package com.egzosn.infrastructure.params.utils;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
+
+import com.egzosn.infrastructure.params.Field4Column;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
  *Wed Nov 162 17:31:32 CST 2015
  */
 public class SQLTools {
-	private static Logger logger = LoggerFactory.getLogger(SQLTools.class);
 	private  static final Pattern pattern = Pattern.compile(":(\\w+)[, ]?");
 	/**
 	 *  获取统计的sql
@@ -91,7 +90,7 @@ public class SQLTools {
 	 * @return sql
 	 */
 	public static String getSelectSQL(String select, String tableName){
-		if (StringUtils.isEmpty(select)){
+		if (null == select || "".equals(select)){
 			select = "*";
 		}
 		return String.format("select %s from %s ", select, tableName);
@@ -183,7 +182,6 @@ public class SQLTools {
 	public static String forPaginate(String sql, int pageNumber, int pageSize) {
 		int offset = pageSize * (pageNumber - 1);
 		String sqltmp = String.format("SELECT *  FROM (SELECT ROWNUM  RN,a.* FROM (  %s  ) a  WHERE ROWNUM <= %s) WHERE RN >%s", new Object[]{sql, Integer.valueOf(offset + pageSize), Integer.valueOf(offset)});
-		logger.info("sql Paginate : " + sqltmp);
 		return sqltmp;
 	}
 
@@ -431,7 +429,7 @@ public class SQLTools {
 	 *            <code> forQuestionMarkSQL(3)  = ?,?,? </code>
 	 * @return 问号，逗号隔开
 	 */
-	public static String forQuestionMarkSQL(int num) {
+	public static final String forQuestionMarkSQL(int num) {
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < num; i++) {
@@ -443,5 +441,36 @@ public class SQLTools {
 	}
 
 
-
+	public static final String getSelect(String prefix, Field4Column field) {
+		return String.format(" %s.%s %s ", prefix, field.getColumn(), field.getField());
+	}
+	
+	public static final String getSelect(String prefix, Field4Column... fields) {
+		if (null == fields || fields.length == 0) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		for (Field4Column field : fields) {
+			sb.append(getSelect(prefix, field)).append(", ");
+//			sb.append(String.format(" %s.%s %s, ", prefix, field.getColumn(), field.getField()));
+		}
+		sb.deleteCharAt(sb.length() - 2);
+		return sb.toString();
+	}
+	
+	public static final String getSelects(String prefix, Field4Column[] field4Columns, Field4Column... ignoreFields) {
+		StringBuilder sb = new StringBuilder();
+		if (null != ignoreFields) {
+			Arrays.sort(ignoreFields);
+		}
+		for (Field4Column field : field4Columns) {
+			if (null != ignoreFields && Arrays.binarySearch(ignoreFields, field) >= 0) {
+				continue;
+			}
+//			sb.append(String.format(" %s.%s %s, ", prefix, field.getColumn(), field.getField()));
+			sb.append(getSelect(prefix, field)).append(", ");
+		}
+		sb.deleteCharAt(sb.length() - 2);
+		return sb.toString();
+	}
 }

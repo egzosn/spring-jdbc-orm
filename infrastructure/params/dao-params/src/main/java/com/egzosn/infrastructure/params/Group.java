@@ -15,14 +15,18 @@
  */
 
 
-
 package com.egzosn.infrastructure.params;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 分组对象
+ * <p>
  * Created by egan on 2015/8/10.
+ * <pre>
+ *     email egzosn@gmail.com
+ *  </pre>
  */
 public class Group extends QueryParams {
     private List<String[]> groups = null;
@@ -37,38 +41,46 @@ public class Group extends QueryParams {
     public Group(String key, String prefix) {
         add(key, prefix);
     }
+
     public Group add(String key) {
 
         return add(key, null);
     }
 
     public QueryParams builderAttrs() {
-        if (null != getGroup()) super.builderAttrs();
-        else {
-            if (null == sql) sql = new StringBuilder();
-
-            sql.append(toSQL());
+        if (null != getGroup()) {
+            super.builderAttrs();
+            return this;
         }
+        if (null == sql) {
+            sql = new StringBuilder();
+        }
+        sql.append(toSQL());
         return this;
     }
 
     public QueryParams builderParas() {
-        if (null != getGroup()) super.builderParas();
-        else {
-            if (null == sql) sql = new StringBuilder();
-
-            sql.append(toFormatSQL());
+        if (null != getGroup()) {
+            super.builderParas();
         }
-
-
+        if (null == sql) {
+            sql = new StringBuilder();
+        }
+        sql.append(toFormatSQL());
         return this;
     }
 
     public Group add(String key, String prefix) {
-        if (key == null || "".equals(key)) return this;
+        if (key == null || "".equals(key)) {
+            return this;
+        }
 
-        if (null == groups) groups = new ArrayList<String[]>();
-
+        if (null == groups) {
+            groups = new ArrayList<String[]>();
+        }
+        if (null == prefix) {
+            prefix = alias;
+        }
         groups.add(new String[]{key, prefix});
 
         return this;
@@ -81,19 +93,17 @@ public class Group extends QueryParams {
 
     @Override
     public String toSQL() {
-        if (null == groups || groups.isEmpty()) return "";
-
+        if (null == groups || groups.isEmpty()) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(" Group by ");
         for (String[] value : groups) {
-
             sb.append(String.format("%s%s, ", null == value[1] ? "" : (value[1] + '.'), value[0]));
         }
         sb.deleteCharAt(sb.length() - 2);
         return sb.toString();
     }
-
-
 
 
 }

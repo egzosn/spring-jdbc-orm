@@ -22,6 +22,7 @@ import java.util.Map;
 
 /**
  * Created by egan on 2015/7/15.
+ * 查询参数集
  */
 public interface Params {
 
