@@ -19,11 +19,10 @@
         </developer>
     </developers>
     <dependencies>
-   <!--     <dependency>
+        <dependency>
             <groupId>com.egzosn.jdbc</groupId>
             <artifactId>utils</artifactId>
         </dependency>
--->
         <!-- logback  -->
 <!--        <dependency>
             <groupId>org.slf4j</groupId>

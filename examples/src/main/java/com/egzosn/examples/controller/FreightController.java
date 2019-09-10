@@ -12,30 +12,19 @@ import java.util.Map;
 import com.egzosn.examples.entity.Freight;
 import com.egzosn.examples.request.FreightBody;
 import com.egzosn.examples.service.FreightService;
-import com.egzosn.infrastructure.params.SqlFilter;
-import com.egzosn.infrastructure.params.SqlFilterRequest;
 import com.egzosn.infrastructure.utils.validator.ValidateUtils;
 import com.egzosn.infrastructure.web.controller.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.MethodParameter;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.validation.SmartValidator;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 /**
 * freight 控制器

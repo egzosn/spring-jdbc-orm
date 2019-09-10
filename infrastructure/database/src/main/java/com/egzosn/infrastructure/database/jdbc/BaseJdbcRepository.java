@@ -2,7 +2,7 @@ package com.egzosn.infrastructure.database.jdbc;
 
 
 
-import com.egzosn.infrastructure.database.jdbc.bean.Page;
+import com.egzosn.infrastructure.utils.common.Page;
 import com.egzosn.infrastructure.params.Params;
 import com.egzosn.infrastructure.params.Where;
 import com.egzosn.infrastructure.params.enums.Restriction;
