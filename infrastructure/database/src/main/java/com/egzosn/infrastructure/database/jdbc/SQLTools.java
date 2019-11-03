@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  */
 public class SQLTools {
 	private static Logger logger = LoggerFactory.getLogger(SQLTools.class);
-	private  static final Pattern pattern = Pattern.compile(":(\\w+)[, ]?");
+	private static final Pattern PATTERN = Pattern.compile(":([A-Za-z0-9\\_\\$]+)[, ]?");
 	/**
 	 *  获取统计的sql
 	 * @param sql 原始sql
@@ -400,7 +400,7 @@ public class SQLTools {
 	 * @return 转化后的sql
 	 */
 	public static String forConverSQL(String sql, Map<String, Object> attrs, List<Object> values) {
-		Matcher matcher = pattern.matcher(sql);
+		Matcher matcher = PATTERN.matcher(sql);
 		String rexp = null;
 		while (matcher.find()) {
 			String group = matcher.group(1);
