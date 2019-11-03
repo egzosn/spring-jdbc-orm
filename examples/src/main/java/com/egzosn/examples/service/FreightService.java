@@ -12,8 +12,9 @@ import com.egzosn.examples.params.FreightDaoParams;
 import com.egzosn.examples.repository.FreightRepository;
 import com.egzosn.examples.entity.Freight;
 import com.egzosn.examples.entity.CustomFreight;
-import com.egzosn.infrastructure.params.SqlFilter;
+
 import com.egzosn.infrastructure.params.enums.Restriction;
+import com.egzosn.infrastructure.params.filter.SqlFilter;
 import com.egzosn.infrastructure.utils.common.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;

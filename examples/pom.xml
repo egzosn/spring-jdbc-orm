@@ -24,10 +24,6 @@
         </dependency>
         <dependency>
             <groupId>com.egzosn.jdbc</groupId>
-            <artifactId>database</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.egzosn.jdbc</groupId>
             <artifactId>sql-filter</artifactId>
         </dependency>
     <!--web应用基本环境配置 -->
@@ -45,7 +41,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-
     </dependencies>
 
 

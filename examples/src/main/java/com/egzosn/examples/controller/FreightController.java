@@ -12,11 +12,12 @@ import java.util.Map;
 import com.egzosn.examples.entity.Freight;
 import com.egzosn.examples.request.FreightBody;
 import com.egzosn.examples.service.FreightService;
-import com.egzosn.infrastructure.params.SqlFilter;
-import com.egzosn.infrastructure.params.SqlFilterRequest;
+import com.egzosn.infrastructure.params.filter.SqlFilter;
+import com.egzosn.infrastructure.params.filter.SqlFilterRequest;
 import com.egzosn.infrastructure.utils.validator.ValidateUtils;
 import com.egzosn.infrastructure.web.controller.BaseController;
 import io.swagger.annotations.Api;
+
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

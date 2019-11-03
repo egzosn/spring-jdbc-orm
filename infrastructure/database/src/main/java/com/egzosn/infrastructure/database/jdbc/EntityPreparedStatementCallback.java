@@ -81,7 +81,7 @@ public class EntityPreparedStatementCallback<T, P> implements  org.springframewo
 
     public EntityPreparedStatementCallback(SingleTableEntityPersister<P> entityPersister, P entity, boolean isInsert) {
         this.entityPersister = entityPersister;
-        this.entitys = entitys;
+        this.entity = entity;
         isBatch = false;
         this.isInsert = isInsert;
         if (isInsert){

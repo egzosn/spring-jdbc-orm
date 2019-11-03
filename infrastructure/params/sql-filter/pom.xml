@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.egzosn.jdbc</groupId>
-        <artifactId>params-parent</artifactId>
-        <version>1.0.2</version>
+        <artifactId>params</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sql-filter</artifactId>
@@ -15,7 +15,6 @@
         <dependency>
             <groupId>com.egzosn.jdbc</groupId>
             <artifactId>dao-params</artifactId>
-            <version>1.0.2</version>
         </dependency>
     </dependencies>
 

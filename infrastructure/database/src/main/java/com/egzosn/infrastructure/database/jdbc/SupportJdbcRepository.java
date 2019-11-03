@@ -1,7 +1,7 @@
 package com.egzosn.infrastructure.database.jdbc;
 
 import com.egzosn.infrastructure.database.jdbc.bean.Column;
-import com.egzosn.infrastructure.database.jdbc.bean.Page;
+import com.egzosn.infrastructure.utils.common.Page;
 import com.egzosn.infrastructure.database.jdbc.id.GenerationType;
 import com.egzosn.infrastructure.database.utils.ReflectionUtils;
 import org.springframework.beans.*;
